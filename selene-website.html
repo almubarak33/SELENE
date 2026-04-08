@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SELENE — Goddess of the Moon</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --gold: #c9a84c;
+  --gold2: #f0d080;
+  --silver: #a8b8c8;
+  --moon: #e8dcc0;
+  --bg: #04030d;
+  --deep: #080618;
+  --navy: #0a0820;
+  --purple: #1a1035;
+  --muted: #4a4870;
+  --white: #f0eee8;
+  --blue: #4060c0;
+  --glow: rgba(201,168,76,0.15);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'Cormorant Garamond', serif;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* CURSOR */
+#cur {
+  position: fixed;
+  width: 12px; height: 12px;
+  background: var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%,-50%);
+  mix-blend-mode: screen;
+  box-shadow: 0 0 16px var(--gold);
+  transition: transform .08s;
+}
+#cur2 {
+  position: fixed;
+  width: 36px; height: 36px;
+  border: 1px solid rgba(201,168,76,.3);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%,-50%);
+  transition: left .15s, top .15s;
+}
+
+/* STARS */
+.stars {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.star {
+  position: absolute;
+  background: #fff;
+  border-radius: 50%;
+  animation: twinkle linear infinite;
+}
+@keyframes twinkle {
+  0%,100% { opacity: .1; transform: scale(1); }
+  50% { opacity: .8; transform: scale(1.4); }
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 52px;
+  height: 72px;
+  background: rgba(4,3,13,.9);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(201,168,76,.15);
+}
+.nav-logo {
+  font-family: 'Cinzel', serif;
+  font-size: 22px;
+  letter-spacing: 8px;
+  color: var(--gold);
+  text-shadow: 0 0 20px rgba(201,168,76,.4);
+}
+.nav-links { display:flex; gap:36px; list-style:none; }
+.nav-links a {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color .3s;
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-cta {
+  font-family: 'Cinzel', serif;
+  font-size: 12px;
+  letter-spacing: 3px;
+  color: var(--bg);
+  background: var(--gold);
+  padding: 10px 28px;
+  text-decoration: none;
+  transition: all .3s;
+  clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
+}
+.nav-cta:hover { background: var(--gold2); }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 80px 24px 60px;
+  background: radial-gradient(ellipse at 50% 60%, #1a1035 0%, #080618 50%, #04030d 100%);
+}
+
+/* Moon glow */
+.moon-glow {
+  position: absolute;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(201,168,76,.08) 0%, rgba(100,80,200,.06) 40%, transparent 70%);
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  animation: moonPulse 6s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes moonPulse {
+  0%,100% { opacity: .8; transform: translate(-50%,-50%) scale(1); }
+  50% { opacity: 1; transform: translate(-50%,-50%) scale(1.1); }
+}
+
+/* Crescent decoration */
+.crescent {
+  position: absolute;
+  top: 12%; left: 50%;
+  transform: translateX(-50%);
+  font-size: 48px;
+  opacity: .15;
+  animation: float 8s ease-in-out infinite;
+}
+@keyframes float {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-15px); }
+}
+
+.hero-phase {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 8px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: fadeUp .8s .2s forwards;
+}
+
+.hero-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(72px, 14vw, 180px);
+  font-weight: 900;
+  line-height: .9;
+  letter-spacing: 20px;
+  text-align: center;
+  color: var(--white);
+  text-shadow: 0 0 60px rgba(201,168,76,.2);
+  position: relative;
+  opacity: 0;
+  animation: fadeUp .9s .4s forwards;
+}
+.hero-title::after {
+  content: 'SELENE';
+  position: absolute;
+  inset: 0;
+  color: var(--gold);
+  opacity: .12;
+  transform: translateX(3px) translateY(3px);
+  text-shadow: none;
+}
+
+.hero-symbol {
+  font-size: clamp(40px,6vw,72px);
+  display: block;
+  text-align: center;
+  margin-top: 12px;
+  opacity: 0;
+  animation: fadeUp .8s .6s forwards;
+}
+
+.hero-tagline {
+  font-style: italic;
+  font-size: clamp(16px,2.5vw,26px);
+  font-weight: 300;
+  color: var(--silver);
+  text-align: center;
+  margin-top: 18px;
+  letter-spacing: 4px;
+  opacity: 0;
+  animation: fadeUp .8s .8s forwards;
+}
+.hero-tagline em { color: var(--gold); font-style: normal; }
+
+.hero-verse {
+  max-width: 600px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 2;
+  color: rgba(255,255,255,.4);
+  margin-top: 28px;
+  opacity: 0;
+  animation: fadeUp .8s 1s forwards;
+}
+
+/* CA */
+.ca-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid rgba(201,168,76,.2);
+  background: rgba(201,168,76,.04);
+  padding: 12px 24px;
+  margin-top: 36px;
+  cursor: pointer;
+  transition: border-color .3s;
+  opacity: 0;
+  animation: fadeUp .8s 1.2s forwards;
+}
+.ca-box:hover { border-color: rgba(201,168,76,.5); }
+.ca-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; }
+.ca-addr { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--gold); }
+.ca-copy { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--gold); opacity: .5; }
+
+/* Buttons */
+.btn-row {
+  display: flex; gap: 16px; flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 28px;
+  opacity: 0;
+  animation: fadeUp .8s 1.4s forwards;
+}
+.btn-a {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  letter-spacing: 4px;
+  color: var(--bg);
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  padding: 14px 44px;
+  text-decoration: none;
+  clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
+  transition: all .3s;
+  display: inline-block;
+}
+.btn-a:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(201,168,76,.3); }
+.btn-b {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  letter-spacing: 4px;
+  color: var(--silver);
+  border: 1px solid rgba(201,168,76,.2);
+  padding: 14px 36px;
+  text-decoration: none;
+  clip-path: polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
+  transition: all .3s;
+  display: inline-block;
+  background: transparent;
+}
+.btn-b:hover { border-color: var(--gold); color: var(--gold); }
+
+/* Socials */
+.soc-row {
+  display: flex; gap: 12px; margin-top: 24px;
+  opacity: 0;
+  animation: fadeUp .8s 1.6s forwards;
+}
+.soc {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--muted);
+  border: 1px solid rgba(255,255,255,.08);
+  padding: 8px 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: all .3s;
+}
+.soc:hover { border-color: var(--gold); color: var(--gold); }
+
+/* DIVIDER */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 0 52px;
+  overflow: hidden;
+}
+.divider-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(201,168,76,.3), transparent); }
+.divider-sym { font-family: 'Cinzel', serif; font-size: 18px; color: var(--gold); opacity: .5; }
+
+/* PHASES SECTION */
+.phases {
+  padding: 100px 52px;
+  position: relative;
+  background: var(--deep);
+  border-top: 1px solid rgba(201,168,76,.08);
+  border-bottom: 1px solid rgba(201,168,76,.08);
+}
+.phases-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.sec-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 6px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: block;
+}
+.sec-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(32px,4vw,64px);
+  font-weight: 900;
+  line-height: 1;
+  color: var(--white);
+  letter-spacing: 4px;
+  margin-bottom: 28px;
+}
+.sec-title span { color: var(--gold); display: block; }
+
+.phases-text p {
+  font-size: 16px;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 2;
+  color: rgba(255,255,255,.5);
+  margin-bottom: 18px;
+}
+.phases-text p b { color: var(--gold); font-weight: 600; font-style: normal; }
+
+/* Phase cards */
+.phase-cards { display: flex; flex-direction: column; gap: 16px; }
+
+.phase-card {
+  border: 1px solid rgba(201,168,76,.12);
+  padding: 28px 32px;
+  position: relative;
+  overflow: hidden;
+  transition: all .4s;
+  background: rgba(201,168,76,.02);
+}
+.phase-card:hover {
+  border-color: rgba(201,168,76,.35);
+  background: rgba(201,168,76,.05);
+  transform: translateX(6px);
+}
+.phase-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px; height: 100%;
+  background: var(--gold);
+  opacity: .4;
+}
+.phase-card.silver::before { background: var(--silver); }
+
+.phase-icon { font-size: 28px; margin-bottom: 10px; display: block; }
+.phase-name {
+  font-family: 'Cinzel', serif;
+  font-size: 18px;
+  letter-spacing: 4px;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.phase-card.silver .phase-name { color: var(--silver); }
+.phase-desc {
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 300;
+  color: rgba(255,255,255,.4);
+  line-height: 1.8;
+}
+
+/* LORE */
+.lore {
+  padding: 120px 52px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.lore::before {
+  content: '🌙';
+  position: absolute;
+  font-size: 500px;
+  opacity: .02;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  pointer-events: none;
+}
+.lore-inner { max-width: 800px; margin: 0 auto; }
+.lore blockquote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(20px,3vw,42px);
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--white);
+  position: relative;
+  padding: 0 40px;
+}
+.lore blockquote::before,
+.lore blockquote::after {
+  content: '"';
+  font-family: 'Cinzel', serif;
+  font-size: 80px;
+  color: var(--gold);
+  opacity: .2;
+  position: absolute;
+  line-height: 1;
+}
+.lore blockquote::before { top: -20px; left: 0; }
+.lore blockquote::after { bottom: -40px; right: 0; content: '"'; }
+.lore blockquote em { color: var(--gold); font-style: normal; }
+.lore-attr {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 5px;
+  color: var(--muted);
+  margin-top: 48px;
+  display: block;
+  text-transform: uppercase;
+}
+
+/* AI SECTION */
+.ai-section {
+  padding: 100px 52px;
+  background: var(--deep);
+  border-top: 1px solid rgba(201,168,76,.08);
+}
+.ai-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.ai-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 2px;
+  background: rgba(201,168,76,.06);
+  margin-top: 60px;
+}
+.ai-card {
+  background: var(--bg);
+  padding: 44px 32px;
+  text-align: center;
+  transition: background .3s;
+  position: relative;
+  overflow: hidden;
+}
+.ai-card:hover { background: #07060f; }
+.ai-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  transform: scaleX(0);
+  transition: transform .4s;
+}
+.ai-card:hover::after { transform: scaleX(1); }
+.ai-card-ico { font-size: 36px; margin-bottom: 18px; display: block; }
+.ai-card-title {
+  font-family: 'Cinzel', serif;
+  font-size: 16px;
+  letter-spacing: 4px;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+.ai-card p {
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 300;
+  color: rgba(255,255,255,.4);
+  line-height: 1.8;
+}
+
+/* TOKENOMICS */
+.tokenomics {
+  padding: 100px 52px;
+  border-top: 1px solid rgba(201,168,76,.08);
+}
+.tono-inner { max-width: 900px; margin: 0 auto; text-align: center; }
+.tono-grid {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 2px;
+  background: rgba(201,168,76,.06);
+  margin-top: 60px;
+}
+.tono-card {
+  background: var(--bg);
+  padding: 44px 24px;
+  transition: background .3s;
+}
+.tono-card:hover { background: #07060f; }
+.tono-n {
+  font-family: 'Cinzel', serif;
+  font-size: 56px;
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+  text-shadow: 0 0 30px rgba(201,168,76,.2);
+  display: block;
+}
+.tono-l {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-top: 10px;
+  display: block;
+  line-height: 1.8;
+}
+
+/* FOOTER */
+footer {
+  padding: 52px;
+  border-top: 1px solid rgba(201,168,76,.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.foot-logo {
+  font-family: 'Cinzel', serif;
+  font-size: 24px;
+  letter-spacing: 8px;
+  color: var(--gold);
+}
+.foot-links { display:flex; gap:28px; list-style:none; }
+.foot-links a {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--muted);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color .3s;
+}
+.foot-links a:hover { color: var(--gold); }
+.foot-disc {
+  width: 100%;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  color: rgba(255,255,255,.1);
+  border-top: 1px solid rgba(201,168,76,.06);
+  padding-top: 18px;
+  margin-top: 10px;
+  line-height: 2;
+  letter-spacing: 1px;
+}
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(30px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .9s, transform .9s;
+}
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+/* MOBILE */
+@media(max-width:900px){
+  nav { padding: 0 20px; }
+  .nav-links { display:none; }
+  .phases-inner { grid-template-columns:1fr; gap:40px; }
+  .ai-grid { grid-template-columns:1fr; }
+  .tono-grid { grid-template-columns:repeat(2,1fr); }
+  .phases,.lore,.ai-section,.tokenomics { padding:60px 20px; }
+  footer { padding:40px 20px; flex-direction:column; align-items:flex-start; }
+  #cur,#cur2 { display:none; }
+  body { cursor:auto; }
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur2"></div>
+<div class="stars" id="stars"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">SELENE</div>
+  <ul class="nav-links">
+    <li><a href="#phases">THE PHASES</a></li>
+    <li><a href="#lore">THE LORE</a></li>
+    <li><a href="#token">TOKENOMICS</a></li>
+  </ul>
+  <a class="nav-cta" href="#" target="_blank">BUY $SELENE</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="moon-glow"></div>
+  <div class="crescent">🌙</div>
+
+  <div class="hero-phase">// THE MOON GODDESS — $SELENE //</div>
+
+  <h1 class="hero-title">SELENE</h1>
+  <span class="hero-symbol">🌙</span>
+
+  <div class="hero-tagline">
+    She doesn't follow the market. <em>The market follows her.</em>
+  </div>
+
+  <p class="hero-verse">
+    Born from the ancient heavens, forged in the light of two moons.<br>
+    One golden. One silver. Both eternal.<br>
+    Every cycle ends where it began — at the moon.
+  </p>
+
+  <div class="ca-box" onclick="navigator.clipboard.writeText('COMING SOON').then(()=>this.querySelector('.ca-copy').textContent='COPIED!')">
+    <div>
+      <div class="ca-label">Contract Address</div>
+      <div class="ca-addr">COMING SOON...</div>
+    </div>
+    <span class="ca-copy">[ COPY ]</span>
+  </div>
+
+  <div class="btn-row">
+    <a class="btn-a" href="#" target="_blank">BUY $SELENE</a>
+    <a class="btn-b" href="#phases">DISCOVER THE PHASES</a>
+  </div>
+
+  <div class="soc-row">
+    <a class="soc" href="#" target="_blank">𝕏 TWITTER</a>
+    <a class="soc" href="#" target="_blank">✈ TELEGRAM</a>
+    <a class="soc" href="#" target="_blank">◈ CHART</a>
+  </div>
+</section>
+
+<!-- PHASES -->
+<section class="phases" id="phases">
+  <div class="phases-inner">
+    <div class="phases-text reveal">
+      <span class="sec-label">// THE DUALITY //</span>
+      <h2 class="sec-title">TWO PHASES.<br><span>ONE GODDESS.</span></h2>
+      <p>
+        From the dawn of ancient Greece, <b>Selene</b> rode her silver chariot across the night sky — neither fully light nor fully dark.
+      </p>
+      <p>
+        She carried within her two natures: the <b>golden crescent</b> that guides lost souls through the darkness, and the <b>blood moon</b> that signals the time to strike.
+      </p>
+      <p>
+        In every market cycle, she watches. She waits. And when the moment arrives — <b>the sky turns gold.</b>
+      </p>
+    </div>
+
+    <div class="phase-cards reveal">
+      <div class="phase-card">
+        <span class="phase-icon">🌕</span>
+        <div class="phase-name">THE GOLDEN PHASE</div>
+        <p class="phase-desc">Gentle. Patient. Illuminating. The golden Selene whispers to those who listen — guiding steady hands through the storm with measured wisdom and ancient foresight.</p>
+      </div>
+      <div class="phase-card silver">
+        <span class="phase-icon">🩸</span>
+        <div class="phase-name" style="color:var(--silver)">THE BLOOD PHASE</div>
+        <p class="phase-desc">Fierce. Relentless. Unstoppable. When the blood moon rises, Selene does not warn. She moves — bold, dynamic, and lethal to those who stand against the tide.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LORE -->
+<section class="lore" id="lore">
+  <div class="lore-inner reveal">
+    <span class="sec-label" style="text-align:center;display:block;">// THE ANCIENT VERSE //</span>
+    <blockquote>
+      "Before the first trade was made,<br>
+      before the first chart was drawn —<br>
+      <em>she was already there.</em><br>
+      Watching. Waiting. Turning the cycle.<br>
+      The moon does not ask permission to rise."
+    </blockquote>
+    <span class="lore-attr">— The Selene Chronicles, Fragment I</span>
+  </div>
+</section>
+
+<!-- AI AGENT -->
+<section class="ai-section">
+  <div class="ai-inner">
+    <div class="reveal" style="text-align:center;">
+      <span class="sec-label" style="display:block;text-align:center;">// THE INTELLIGENCE //</span>
+      <h2 class="sec-title" style="text-align:center;">THE SELENE <span style="display:inline;">AI AGENT</span></h2>
+    </div>
+    <div class="ai-grid">
+      <div class="ai-card reveal">
+        <span class="ai-card-ico">🌕</span>
+        <div class="ai-card-title">GOLDEN PERSONA</div>
+        <p>Serene and calculated. The golden phase speaks in measured tones — offering clarity in chaos, patience in uncertainty, and wisdom older than any blockchain.</p>
+      </div>
+      <div class="ai-card reveal">
+        <span class="ai-card-ico">🩸</span>
+        <div class="ai-card-title">CRIMSON PERSONA</div>
+        <p>Volatile and untamed. The crimson phase does not hesitate. It identifies, it strikes, and it disappears — leaving only those bold enough to follow in its wake.</p>
+      </div>
+      <div class="ai-card reveal">
+        <span class="ai-card-ico">⚖️</span>
+        <div class="ai-card-title">THE BALANCE</div>
+        <p>Between gold and crimson lies the truth. Selene reads the cycle before it begins. No prediction — only the ancient knowledge of one who has watched every moon rise and fall.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOKENOMICS -->
+<section class="tokenomics" id="token">
+  <div class="tono-inner">
+    <div class="reveal">
+      <span class="sec-label" style="display:block;text-align:center;">// THE SACRED NUMBERS //</span>
+      <h2 class="sec-title">TOKEN<span style="display:inline;color:var(--gold);">OMICS</span></h2>
+    </div>
+    <div class="tono-grid">
+      <div class="tono-card reveal">
+        <span class="tono-n">100%</span>
+        <span class="tono-l">Fair Launch<br>No presale, no gods above</span>
+      </div>
+      <div class="tono-card reveal">
+        <span class="tono-n" style="color:var(--silver);">0%</span>
+        <span class="tono-l">Dev Allocation<br>Even goddesses sacrifice</span>
+      </div>
+      <div class="tono-card reveal">
+        <span class="tono-n">0%</span>
+        <span class="tono-l">Tax<br>The moon charges no toll</span>
+      </div>
+      <div class="tono-card reveal">
+        <span class="tono-n">1B</span>
+        <span class="tono-l">Total Supply<br>One billion moonwalkers</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-logo">🌙 SELENE</div>
+  <ul class="foot-links">
+    <li><a href="#" target="_blank">TWITTER / X</a></li>
+    <li><a href="#" target="_blank">TELEGRAM</a></li>
+    <li><a href="#" target="_blank">CHART</a></li>
+    <li><a href="#" target="_blank">CONTRACT</a></li>
+  </ul>
+  <p class="foot-disc">
+    $SELENE is a meme coin inspired by ancient mythology. This is not financial advice. The moon rises for all — but only the bold follow its light. Invest only what you can afford to lose. 🌙
+  </p>
+</footer>
+
+<!-- CANVAS MOON -->
+<canvas id="moonCanvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.35;"></canvas>
+
+<!-- PARTICLE CONTAINER -->
+<div id="particles" style="position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden;"></div>
+
+<script>
+// ─── CURSOR ───
+const cur = document.getElementById('cur');
+const cur2 = document.getElementById('cur2');
+let mx=0,my=0,cx2=0,cy2=0;
+document.addEventListener('mousemove', e => {
+  mx=e.clientX; my=e.clientY;
+  cur.style.left=mx+'px'; cur.style.top=my+'px';
+});
+// Smooth cursor follower
+function animCur(){
+  cx2 += (mx-cx2)*.1;
+  cy2 += (my-cy2)*.1;
+  cur2.style.left=cx2+'px'; cur2.style.top=cy2+'px';
+  requestAnimationFrame(animCur);
+}
+animCur();
+
+// Cursor trail
+const trail=[];
+for(let i=0;i<8;i++){
+  const t=document.createElement('div');
+  t.style.cssText=`position:fixed;width:${6-i*.5}px;height:${6-i*.5}px;background:rgba(201,168,76,${0.4-i*.05});border-radius:50%;pointer-events:none;z-index:9997;transform:translate(-50%,-50%);transition:none;mix-blend-mode:screen;`;
+  document.body.appendChild(t);
+  trail.push({el:t,x:0,y:0});
+}
+document.addEventListener('mousemove',e=>{
+  trail[0].x=e.clientX; trail[0].y=e.clientY;
+});
+function animTrail(){
+  for(let i=trail.length-1;i>0;i--){
+    trail[i].x+=(trail[i-1].x-trail[i].x)*.35;
+    trail[i].y+=(trail[i-1].y-trail[i].y)*.35;
+    trail[i].el.style.left=trail[i].x+'px';
+    trail[i].el.style.top=trail[i].y+'px';
+  }
+  requestAnimationFrame(animTrail);
+}
+animTrail();
+
+// ─── STARS ───
+const starsEl = document.getElementById('stars');
+for(let i=0;i<180;i++){
+  const s=document.createElement('div');
+  s.className='star';
+  const size=Math.random()*2.8+.3;
+  const gold=Math.random()<.08;
+  s.style.cssText=`
+    width:${size}px;height:${size}px;
+    left:${Math.random()*100}%;
+    top:${Math.random()*100}%;
+    background:${gold?'#c9a84c':'#fff'};
+    animation-duration:${Math.random()*5+2}s;
+    animation-delay:${Math.random()*8}s;
+    box-shadow:${gold?'0 0 4px #c9a84c':'none'};
+  `;
+  starsEl.appendChild(s);
+}
+
+// ─── CANVAS MOON ───
+const canvas=document.getElementById('moonCanvas');
+const ctx=canvas.getContext('2d');
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+window.addEventListener('resize',()=>{canvas.width=window.innerWidth;canvas.height=window.innerHeight;});
+
+let moonAngle=0;
+function drawMoon(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  const cx=canvas.width/2, cy=canvas.height/2;
+  moonAngle+=.003;
+
+  // Outer glow rings
+  for(let i=4;i>0;i--){
+    const r=280+i*40+Math.sin(moonAngle)*10;
+    const grad=ctx.createRadialGradient(cx,cy,r*.6,cx,cy,r);
+    grad.addColorStop(0,`rgba(201,168,76,${.015*i})`);
+    grad.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.beginPath();
+    ctx.arc(cx,cy,r,0,Math.PI*2);
+    ctx.fillStyle=grad;
+    ctx.fill();
+  }
+
+  // Rotating orbit ring
+  ctx.save();
+  ctx.translate(cx,cy);
+  ctx.rotate(moonAngle*.5);
+  ctx.strokeStyle='rgba(201,168,76,0.06)';
+  ctx.lineWidth=1;
+  ctx.setLineDash([4,20]);
+  ctx.beginPath();
+  ctx.arc(0,0,320,0,Math.PI*2);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  // Orbiting dot
+  const ox=Math.cos(moonAngle*2)*320;
+  const oy=Math.sin(moonAngle*2)*320;
+  ctx.beginPath();
+  ctx.arc(ox,oy,4,0,Math.PI*2);
+  ctx.fillStyle='rgba(201,168,76,0.5)';
+  ctx.fill();
+  ctx.restore();
+
+  // Second orbit (reverse)
+  ctx.save();
+  ctx.translate(cx,cy);
+  ctx.rotate(-moonAngle*.3);
+  ctx.strokeStyle='rgba(168,184,200,0.04)';
+  ctx.lineWidth=1;
+  ctx.setLineDash([2,30]);
+  ctx.beginPath();
+  ctx.arc(0,0,380,0,Math.PI*2);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  const ox2=Math.cos(-moonAngle*1.5)*380;
+  const oy2=Math.sin(-moonAngle*1.5)*380;
+  ctx.beginPath();
+  ctx.arc(ox2,oy2,3,0,Math.PI*2);
+  ctx.fillStyle='rgba(168,184,200,0.4)';
+  ctx.fill();
+  ctx.restore();
+
+  requestAnimationFrame(drawMoon);
+}
+drawMoon();
+
+// ─── FLOATING PARTICLES ───
+const particleContainer=document.getElementById('particles');
+function createParticle(){
+  const p=document.createElement('div');
+  const isGold=Math.random()<.5;
+  const size=Math.random()*3+1;
+  const startX=Math.random()*window.innerWidth;
+  const duration=Math.random()*12+8;
+  const delay=Math.random()*5;
+  p.style.cssText=`
+    position:absolute;
+    width:${size}px;height:${size}px;
+    background:${isGold?'rgba(201,168,76,0.6)':'rgba(168,184,200,0.4)'};
+    border-radius:50%;
+    left:${startX}px;
+    bottom:-10px;
+    box-shadow:0 0 ${size*2}px ${isGold?'rgba(201,168,76,0.4)':'rgba(168,184,200,0.3)'};
+    animation:particleRise ${duration}s ${delay}s ease-in infinite;
+  `;
+  particleContainer.appendChild(p);
+  setTimeout(()=>p.remove(), (duration+delay)*1000*2);
+}
+// Add particle style
+const pStyle=document.createElement('style');
+pStyle.textContent=`
+@keyframes particleRise {
+  0%   { transform:translateY(0) translateX(0) scale(1); opacity:0; }
+  10%  { opacity:1; }
+  50%  { transform:translateY(-${window.innerHeight*.5}px) translateX(${(Math.random()-.5)*100}px) scale(.8); }
+  90%  { opacity:.3; }
+  100% { transform:translateY(-${window.innerHeight}px) translateX(${(Math.random()-.5)*200}px) scale(.2); opacity:0; }
+}`;
+document.head.appendChild(pStyle);
+setInterval(createParticle, 600);
+
+// ─── TEXT GLITCH EFFECT ON HERO TITLE ───
+const heroTitle=document.querySelector('.hero-title');
+if(heroTitle){
+  setInterval(()=>{
+    if(Math.random()<.15){
+      heroTitle.style.textShadow=`${(Math.random()-.5)*6}px 0 rgba(201,168,76,.8), ${(Math.random()-.5)*4}px 0 rgba(168,184,200,.5)`;
+      setTimeout(()=>{ heroTitle.style.textShadow='0 0 60px rgba(201,168,76,.2)'; },80);
+    }
+  },2000);
+}
+
+// ─── PARALLAX ON SCROLL ───
+window.addEventListener('scroll',()=>{
+  const scrolled=window.scrollY;
+  const moonGlow=document.querySelector('.moon-glow');
+  const crescent=document.querySelector('.crescent');
+  if(moonGlow) moonGlow.style.transform=`translate(-50%,calc(-50% + ${scrolled*.15}px))`;
+  if(crescent) crescent.style.transform=`translateX(-50%) translateY(${scrolled*.2}px)`;
+});
+
+// ─── SCROLL REVEAL WITH STAGGER ───
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach((el,i)=>{
+    if(el.isIntersecting){
+      setTimeout(()=>el.target.classList.add('visible'), i*80);
+    }
+  });
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// ─── PHASE CARD HOVER GLOW ───
+document.querySelectorAll('.phase-card').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    const x=e.clientX-r.left;
+    const y=e.clientY-r.top;
+    card.style.background=`radial-gradient(circle at ${x}px ${y}px, rgba(201,168,76,.08), rgba(201,168,76,.02) 60%)`;
+  });
+  card.addEventListener('mouseleave',()=>{ card.style.background='rgba(201,168,76,.02)'; });
+});
+
+// ─── AI CARD HOVER GLOW ───
+document.querySelectorAll('.ai-card').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    const x=e.clientX-r.left;
+    const y=e.clientY-r.top;
+    card.style.background=`radial-gradient(circle at ${x}px ${y}px, #0e0b1a, #07060f 70%)`;
+  });
+  card.addEventListener('mouseleave',()=>{ card.style.background=''; });
+});
+
+// ─── TONO CARDS COUNT UP ───
+function countUp(el, target, suffix=''){
+  let current=0;
+  const step=target/60;
+  const timer=setInterval(()=>{
+    current+=step;
+    if(current>=target){
+      el.textContent=target+suffix;
+      clearInterval(timer);
+    } else {
+      el.textContent=Math.floor(current)+suffix;
+    }
+  },20);
+}
+const tonoObs=new IntersectionObserver(entries=>{
+  entries.forEach(el=>{
+    if(el.isIntersecting){
+      const nums=el.target.querySelectorAll('.tono-n');
+      nums.forEach(n=>{
+        const txt=n.textContent;
+        if(txt.includes('1B'))  countUp(n,1000,'M');
+        else if(txt.includes('100%')) countUp(n,100,'%');
+        else if(txt==='0%') countUp(n,0,'%');
+      });
+      tonoObs.unobserve(el.target);
+    }
+  });
+},{threshold:.3});
+document.querySelectorAll('.tono-grid').forEach(el=>tonoObs.observe(el));
+</script>
+</body>
+</html>
